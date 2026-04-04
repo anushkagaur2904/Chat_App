@@ -24,3 +24,28 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ message: "Error sending message" });
   }
 };
+
+export const getMessages = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID required" });
+    }
+
+    const messages = await Message.find({
+      $or: [
+        { senderId: req.user.id, receiverId: userId },
+        { senderId: userId, receiverId: req.user.id }
+      ]
+    })
+      .sort({ createdAt: 1 })
+      .populate("senderId", "name email")
+      .populate("receiverId", "name email");
+
+    res.json(messages);
+
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching messages" });
+  }
+};
