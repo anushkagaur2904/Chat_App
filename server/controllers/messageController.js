@@ -49,3 +49,10 @@ export const getMessages = async (req, res) => {
     res.status(500).json({ message: "Error fetching messages" });
   }
 };
+
+const newMessage = await Message.create({
+  senderId: req.user.id,
+  receiverId,
+  message,
+  status: "sent"
+});
