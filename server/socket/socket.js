@@ -22,6 +22,23 @@ export const setupSocket = (server) => {
 
       io.emit("onlineUsers", Object.keys(users));
     });
+    socket.on("typing", ({ receiverId }) => {
+  const receiverSocket = users[receiverId];
+
+  if (receiverSocket) {
+    io.to(receiverSocket).emit("typing", socket.id);
+  }
+});
+
+socket.on("stopTyping", ({ receiverId }) => {
+  const receiverSocket = users[receiverId];
+
+  if (receiverSocket) {
+    io.to(receiverSocket).emit("stopTyping");
+  }
+});
+  
+    
 
   });
 };
