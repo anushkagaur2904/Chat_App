@@ -18,7 +18,13 @@ const messageSchema = new mongoose.Schema({
   seen: {
     type: Boolean,
     default: false
-  }
+  },
+  status: {
+  type: String,
+  enum: ["sent", "delivered", "seen"],
+  default: "sent"
+}
+
 }, { timestamps: true });
 
 messageSchema.index({ senderId: 1, receiverId: 1 });
