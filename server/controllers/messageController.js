@@ -1,3 +1,5 @@
+import Message from '../models/Message.js';
+
 export const sendMessage = async (req, res) => {
   try {
     const { receiverId, message } = req.body;
@@ -17,6 +19,8 @@ export const sendMessage = async (req, res) => {
       senderId: newMessage.senderId,
       receiverId: newMessage.receiverId,
       message: newMessage.message,
+      type: newMessage.type,
+      media: newMessage.media,
       createdAt: newMessage.createdAt
     });
 
@@ -50,9 +54,53 @@ export const getMessages = async (req, res) => {
   }
 };
 
-const newMessage = await Message.create({
-  senderId: req.user.id,
-  receiverId,
-  message,
-  status: "sent"
-});
+export const markAsSeen = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID required" });
+    }
+
+    const result = await Message.updateMany(
+      {
+        senderId: userId,
+        receiverId: req.user.id,
+        status: { $ne: "seen" }
+      },
+      { status: "seen" }
+    );
+
+    res.json({
+      message: "Updated to seen",
+      updatedCount: result.modifiedCount
+    });
+
+  } catch {
+    res.status(500).json({ message: "Error" });
+  }
+};
+export const sendMedia = async (req, res) => {
+  try {
+    const { receiverId } = req.body;
+
+    if (!req.file || !receiverId) {
+      return res.status(400).json({ message: "File and receiver required" });
+    }
+
+    const fileUrl = `/uploads/${req.file.filename}`;
+
+    const newMessage = await Message.create({
+      senderId: req.user.id,
+      receiverId,
+      media: fileUrl,
+      type: "image",
+      status: "sent"
+    });
+
+    res.status(201).json(newMessage);
+
+  } catch {
+    res.status(500).json({ message: "Error sending media" });
+  }
+};

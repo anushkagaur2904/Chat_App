@@ -1,0 +1,531 @@
+.chat-app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Glassmorphism Panels */
+.sidebar,
+.chat-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar {
+  padding: 32px;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+  z-index: 10;
+}
+
+.chat-panel {
+  padding: 0;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.6) 0%, rgba(15, 23, 42, 0.75) 100%);
+}
+
+.sidebar-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.sidebar-brand strong {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+/* Form Styles */
+.auth-card,
+.contacts-card,
+.welcome-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.auth-card h2 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+  background: var(--secondary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-card label,
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.auth-card input,
+textarea,
+.chat-panel input {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-main);
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-card input::placeholder,
+.chat-panel input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-card input:focus,
+.chat-panel input:focus {
+  border-color: var(--primary-color);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+/* Buttons */
+.primary-button,
+.secondary-button,
+.link-button {
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.primary-button {
+  border: none;
+  background: var(--primary-gradient);
+  color: #fff;
+  padding: 16px 24px;
+  box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px -10px rgba(99, 102, 241, 0.7);
+  filter: brightness(1.1);
+}
+
+.primary-button:active {
+  transform: translateY(1px);
+}
+
+.secondary-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
+
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.link-button {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px;
+  font-size: 0.95rem;
+}
+
+.link-button:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--primary-color);
+  text-underline-offset: 4px;
+}
+
+/* Contacts List */
+.contacts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+}
+
+.contacts-header .meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.contacts-header h3 {
+  margin: 4px 0 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-pill.online {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.status-pill.offline {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+}
+
+.contact-list {
+  display: grid;
+  gap: 10px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.contact-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  border: 1px solid transparent;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+.contact-item.active {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+.contact-item > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  min-width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-gradient);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.contact-item strong {
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-meta {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.badge {
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* Chat Board Header */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.chat-header .meta {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.chat-header h2 {
+  margin: 4px 0 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.typing-indicator {
+  margin: 4px 0 0;
+  color: #38bdf8;
+  font-size: 0.9rem;
+  font-style: italic;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.tag {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Messages Area */
+.message-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding: 24px 32px;
+  scroll-behavior: smooth;
+}
+
+.message-card {
+  max-width: 65%;
+  min-width: 120px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  position: relative;
+  font-size: 15px;
+  line-height: 1.5;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message-card.sent {
+  margin-left: auto;
+  background: var(--primary-gradient);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+}
+
+.message-card.received {
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom-left-radius: 4px;
+}
+
+.message-card p {
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.message-card img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.message-card.received .message-footer {
+  justify-content: flex-start;
+  color: var(--text-muted);
+}
+
+.empty-state {
+  margin: auto;
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  width: max-content;
+  max-width: 80%;
+  font-size: 1.1rem;
+}
+
+/* Composer / Input Area */
+.composer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 24px 32px;
+  background: rgba(15, 23, 42, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.composer input {
+  padding: 18px 24px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0; /* hide text if needed, show icon */
+}
+
+/* Added a plus icon visually for file upload */
+.file-upload::before {
+  content: "+";
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.file-upload:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.file-upload input {
+  display: none;
+}
+
+.composer .primary-button {
+  padding: 0 32px;
+  height: 54px;
+  border-radius: 27px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.welcome-card {
+  margin: auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+.welcome-card h1 {
+  font-size: 3.5rem;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.welcome-card p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .chat-app {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-app {
+    grid-template-columns: 1fr;
+    height: 100vh;
+    padding: 0;
+    gap: 0;
+  }
+  
+  .sidebar, .chat-panel {
+    border-radius: 0;
+    border: none;
+  }
+  
+  /* Logic for showing hiding in mobile would usually be handled in React state,
+     but for styling purposes, we assure they display correctly block. */
+}
